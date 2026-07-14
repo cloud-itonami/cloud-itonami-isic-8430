@@ -1,0 +1,10 @@
+{:itonami.blueprint/id "cloud-itonami-isic-8430"
+ :itonami.blueprint/name "Compulsory Social Security Administration"
+ :itonami.blueprint/isic-rev5 "8430"
+ :itonami.blueprint/domain :social-security/administration
+ :itonami.blueprint/license "AGPL-3.0-or-later"
+ :itonami.blueprint/social-impact [:social-protection :administrative-efficiency :claim-transparency]
+ :itonami.blueprint/governor :social-security-governor
+ :itonami.blueprint/robotics true
+ :itonami.blueprint/required-technologies [:robotics :identity :forms :dmn :bpmn :audit-ledger]
+ :itonami.blueprint/status :public-oss}
