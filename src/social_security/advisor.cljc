@@ -23,7 +23,10 @@
   intentional and non-overridable.
 
   LLM parse failures always yield `:confidence 0.0` (never fabricate
-  confidence), which forces the governor to escalate/hold.")
+  confidence), which forces the governor to escalate/hold."
+  ;; clojure.edn, not clojure.core/read-string: this parses untrusted
+  ;; advisor output, and the core reader executes #=(...) at read time.
+  (:require [clojure.edn :as edn]))
 
 ; Closed allowlist: only these operations are permitted
 ; NOTE: NO approval/denial/disbursement operations — those are permanently forbidden
@@ -74,7 +77,7 @@
 
 (defn- parse-proposal [content]
   (try
-    (let [p #?(:clj (read-string content)
+    (let [p #?(:clj (edn/read-string content)
                :cljs (js/JSON.parse content))  ; Placeholder for ClojureScript
           op-valid? (and (map? p) (contains? permitted-ops (:op p)))]
       (if op-valid?
