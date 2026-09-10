@@ -77,22 +77,22 @@ human-in-the-loop interrupt/resume via checkpointing.
                                            +-> :hold               (:hard? true)
 ```
 
-- `src/social_security/store.cljc` — `Store` protocol + `MemStore`:
+- `src/social_security/store.kotoba` — `Store` protocol + `MemStore`:
   registered claimants, committed claim records, an append-only audit ledger.
-- `src/social_security/advisor.cljc` — `Advisor` protocol; `mock-advisor`
+- `src/social_security/advisor.kotoba` — `Advisor` protocol; `mock-advisor`
   (deterministic, default) proposes a claim administration operation from a
   request; `llm-advisor` wraps a `langchain.model/ChatModel` — either
   way the advisor only ever produces a `:propose`-effect proposal,
   never a claim determination, and LLM parse failures always yield
   `confidence 0.0` (forces escalation, never fabricated confidence).
-- `src/social_security/governor.cljc` — `SocialSecurityGovernor/check`: a pure
+- `src/social_security/governor.kotoba` — `SocialSecurityGovernor/check`: a pure
   function, wired as its own `:govern` node. Hard invariants
   (unregistered claimant, a proposal whose `:effect` isn't `:propose`, any
   proposal touching claim determination or payment) always route to `:hold`.
   Escalation invariants (appeal intake or low advisor confidence) always
   route to `:request-approval` — an `interrupt-before` node that the graph
   checkpoints and only resumes on explicit human approval (`actor/approve!`).
-- `src/social_security/actor.cljc` — `build-graph`, `run-request!`,
+- `src/social_security/actor.kotoba` — `build-graph`, `run-request!`,
   `approve!`: the `langgraph.graph/state-graph` wiring itself.
 
 ```bash
