@@ -5,7 +5,7 @@
 ### Local Development
 
 ```bash
-clojure -M:test
+kbb -M:test
 ```
 
 This runs the test suite against the in-memory store and mock advisor. It validates:
